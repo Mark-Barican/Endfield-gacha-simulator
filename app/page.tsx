@@ -92,6 +92,31 @@ const imageMap: Record<string, string> = {
   Fluorite: "/4-star/fluorite.9071d26e.webp",
 };
 
+const faceFocusMap: Record<string, string> = {
+  Laevatain: "50% 8%",
+  Gilberta: "50% 12%",
+  Yvonne: "50% 12%",
+  Ardelia: "50% 10%",
+  Ember: "50% 14%",
+  "Last Rite": "50% 10%",
+  Pogranichnik: "55% 12%",
+  Lifeng: "50% 10%",
+  Alesh: "50% 12%",
+  Arclight: "50% 8%",
+  "Chen Qianyu": "55% 10%",
+  Perlica: "50% 12%",
+  Avywenna: "50% 10%",
+  "Da Pan": "50% 12%",
+  Snowshine: "50% 12%",
+  Wulfgard: "50% 10%",
+  Xaihi: "50% 10%",
+  Akekuri: "50% 12%",
+  Antal: "50% 12%",
+  Catcher: "50% 12%",
+  Estella: "50% 12%",
+  Fluorite: "50% 12%",
+};
+
 const calculateSixStarRate = (pity: number) => {
   if (pity < PITY_START) {
     return BASE_SIX_STAR_RATE;
@@ -271,8 +296,8 @@ export default function Home() {
     <div className="page">
       <div className="header">
         <div>
-          <h1>Arknights Endfield Gacha</h1>
-          <p className="subtitle">Modern pull simulator with banner guarantees.</p>
+          <h1>Arknights Endfield Gacha Simulator</h1>
+          <p className="subtitle">Let's Go Gambling!</p>
         </div>
         <div className="header-badge">Chartered Banner</div>
       </div>
@@ -308,14 +333,6 @@ export default function Home() {
         <div className="stat-card pity-info">
           <div className="stat-label">5★ Pity</div>
           <div className="stat-value">{gameState.fiveStarPity}</div>
-        </div>
-        <div className="stat-card guarantee-info">
-          <div className="stat-label">120</div>
-          <div className="stat-value">{gameState.pullsSinceLastFeatured}</div>
-        </div>
-        <div className="stat-card guarantee-info">
-          <div className="stat-label">240</div>
-          <div className="stat-value">{gameState.totalPulls % RATE_UP_240}</div>
         </div>
         <div className="stat-card arsenal-info">
           <div className="stat-label">Tickets</div>
@@ -371,7 +388,14 @@ export default function Home() {
                 <div className={classes} key={`${result.name}-${index}`}>
                   <div className="portrait">
                     {imageSrc ? (
-                      <img src={imageSrc} alt={result.name} />
+                      <img
+                        src={imageSrc}
+                        alt={result.name}
+                        style={{
+                          objectPosition:
+                            faceFocusMap[result.name] ?? "50% 12%",
+                        }}
+                      />
                     ) : (
                       <div className="portrait-fallback" />
                     )}
@@ -379,6 +403,10 @@ export default function Home() {
                   <div className="result-meta">
                     <div className="result-stars">{stars}</div>
                     <div className="result-name">{result.name}</div>
+                    <div className="result-tickets">
+                      <img src="/Arsenal_Ticket.webp" alt="Arsenal ticket" />
+                      <span>{result.tickets.toLocaleString()}</span>
+                    </div>
                   </div>
                 </div>
               );
