@@ -187,6 +187,7 @@ export default function Home() {
   const [results, setResults] = useState<ResultItem[]>([]);
   const [isPulling, setIsPulling] = useState(false);
   const [pullVersion, setPullVersion] = useState(0);
+  const [showResetModal, setShowResetModal] = useState(false);
 
   const totalRate = useMemo(() => {
     const currentSixStarRate = calculateSixStarRate(gameState.sixStarPity);
@@ -276,10 +277,17 @@ export default function Home() {
   };
 
   const resetGacha = () => {
-    if (window.confirm("Are you sure you want to reset all progress?")) {
-      setGameState(initialState);
-      setResults([]);
-    }
+    setShowResetModal(true);
+  };
+
+  const confirmReset = () => {
+    setGameState(initialState);
+    setResults([]);
+    setShowResetModal(false);
+  };
+
+  const cancelReset = () => {
+    setShowResetModal(false);
   };
 
   useEffect(() => {
@@ -438,6 +446,30 @@ export default function Home() {
           </p>
         </div>
       </div>
+
+      <footer className="site-footer">
+        Developed with Caffine by Maruko Aizawa
+      </footer>
+
+      {showResetModal && (
+        <div className="modal-backdrop" role="presentation">
+          <div className="modal">
+            <div className="modal-header">Reset Progress</div>
+            <p className="modal-body">
+              This will clear all pulls, pity, and ticket totals. This action
+              cannot be undone.
+            </p>
+            <div className="modal-actions">
+              <button className="reset-cancel" onClick={cancelReset}>
+                Cancel
+              </button>
+              <button className="reset-confirm" onClick={confirmReset}>
+                Reset
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
