@@ -251,7 +251,7 @@ button:hover {
 
 .results-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 12px;
 }
 
@@ -268,12 +268,15 @@ button:hover {
 }
 
 .result-card.rarity-6 {
-  border-color: rgba(251, 146, 60, 0.95);
+  border-color: rgba(251, 146, 60, 1);
+  outline: 1px solid rgba(251, 146, 60, 0.9);
+  outline-offset: -1px;
   box-shadow:
     0 0 12px rgba(255, 175, 90, 0.55),
     0 0 24px rgba(255, 210, 120, 0.45),
     0 0 38px rgba(255, 140, 80, 0.35),
     0 0 54px rgba(255, 255, 255, 0.18);
+  animation: sixStarReveal 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
   background: linear-gradient(
     120deg,
     rgba(250, 204, 21, 0.55),
@@ -332,6 +335,7 @@ button:hover {
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  position: relative;
 }
 
 .portrait img {
@@ -532,6 +536,23 @@ button:hover {
   }
 }
 
+@keyframes sixStarReveal {
+  0% {
+    opacity: 0;
+    transform: scale(0.86);
+    filter: brightness(0.6);
+  }
+  55% {
+    opacity: 1;
+    transform: scale(1.04);
+    filter: brightness(1.2);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
 @keyframes rainbowShift {
   0% {
     background-position: 0% 50%;
@@ -552,6 +573,16 @@ button:hover {
 
   .actions {
     flex-direction: column;
+  }
+
+  .results-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1024px) {
+  .results-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 

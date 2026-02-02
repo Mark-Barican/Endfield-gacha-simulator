@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 const BASE_SIX_STAR_RATE = 0.008;
 const PITY_START = 66;
@@ -201,7 +202,8 @@ export default function Home() {
     };
   }, [gameState.sixStarPity]);
 
-  const runPulls = (count: number) => {
+  const runPulls = useCallback(
+    (count: number) => {
     setIsPulling(true);
     setPullVersion((prev) => prev + 1);
     const nextState: GameState = { ...gameState };
@@ -269,26 +271,28 @@ export default function Home() {
       nextResults.push(result);
     }
 
-    setGameState(nextState);
-    setResults(nextResults);
-    window.setTimeout(() => {
-      setIsPulling(false);
-    }, 650);
-  };
+      setGameState(nextState);
+      setResults(nextResults);
+      window.setTimeout(() => {
+        setIsPulling(false);
+      }, 650);
+    },
+    [gameState],
+  );
 
-  const resetGacha = () => {
+  const resetGacha = useCallback(() => {
     setShowResetModal(true);
-  };
+  }, []);
 
-  const confirmReset = () => {
+  const confirmReset = useCallback(() => {
     setGameState(initialState);
     setResults([]);
     setShowResetModal(false);
-  };
+  }, []);
 
-  const cancelReset = () => {
+  const cancelReset = useCallback(() => {
     setShowResetModal(false);
-  };
+  }, []);
 
   useEffect(() => {
     if (results.length === 0) {
@@ -396,10 +400,13 @@ export default function Home() {
                 <div className={classes} key={`${result.name}-${index}`}>
                   <div className="portrait">
                     {imageSrc ? (
-                      <img
+                      <Image
                         src={imageSrc}
                         alt={result.name}
+                        fill
+                        sizes="(max-width: 720px) 50vw, (max-width: 1024px) 33vw, 20vw"
                         style={{
+                          objectFit: "cover",
                           objectPosition:
                             faceFocusMap[result.name] ?? "50% 12%",
                         }}
