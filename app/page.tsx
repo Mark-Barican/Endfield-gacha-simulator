@@ -223,9 +223,7 @@ export default function Home() {
       let result: ResultItem;
 
       if (nextState.sixStarPity >= MAX_PITY) {
-        const isFeatured =
-          Math.random() < 0.5 ||
-          nextState.pullsSinceLastFeatured >= GUARANTEE_120;
+        const isFeatured = Math.random() < 0.5;
         result = pullSixStar(nextState, isFeatured);
         nextState.sixStarPity = 0;
         nextState.fiveStarPity = 0;
@@ -239,7 +237,7 @@ export default function Home() {
         nextState.pullsSinceLastFeatured = 0;
         result.tickets = 0;
       } else if (
-        nextState.pullsSinceLastFeatured >= GUARANTEE_120 &&
+        nextState.totalPulls >= GUARANTEE_120 &&
         nextState.featuredCount === 0
       ) {
         result = pullSixStar(nextState, true);
@@ -250,9 +248,7 @@ export default function Home() {
         const roll = Math.random();
 
         if (roll < currentSixStarRate) {
-          const isFeatured =
-            Math.random() < 0.5 ||
-            nextState.pullsSinceLastFeatured >= GUARANTEE_120;
+          const isFeatured = Math.random() < 0.5;
           result = pullSixStar(nextState, isFeatured);
           nextState.sixStarPity = 0;
           nextState.fiveStarPity = 0;
@@ -301,8 +297,7 @@ export default function Home() {
   }, [results.length]);
 
   const showGuaranteeNotice =
-    gameState.pullsSinceLastFeatured >= GUARANTEE_120 &&
-    gameState.featuredCount === 0;
+    gameState.totalPulls >= GUARANTEE_120 && gameState.featuredCount === 0;
 
   return (
     <div className="page">
